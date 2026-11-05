@@ -1,0 +1,71 @@
+# Run `xcodegen` here after adding or removing a file, then open PokerTable.xcodeproj.
+name: PokerTable
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "17.0"
+    macOS: "14.0"
+packages:
+  PokerEngine:
+    path: ../..
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    CODE_SIGN_STYLE: Automatic
+targets:
+  PokerTable:
+    type: application
+    supportedDestinations: [iOS, macOS]
+    sources: [PokerTable]
+    settings:
+      base:
+        # Signs to run on a simulator or this Mac. For a real iPhone, choose your team in Xcode.
+        CODE_SIGN_IDENTITY: "-"
+        GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: "0.1"
+        CURRENT_PROJECT_VERSION: 1
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: >-
+          UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown
+          UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+    dependencies:
+      - package: PokerEngine
+        products: [PokerEngine, PokerEngineObservation]
+  PokerTableTests:
+    type: bundle.unit-test
+    supportedDestinations: [iOS, macOS]
+    sources: [PokerTableTests]
+    settings:
+      base:
+        CODE_SIGN_IDENTITY: "-"
+        GENERATE_INFOPLIST_FILE: YES
+        # XcodeGen writes the iOS path, and a Mac app keeps its executable in Contents/MacOS.
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/PokerTable.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PokerTable
+    dependencies:
+      - target: PokerTable
+  PokerTableUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [PokerTableUITests]
+    settings:
+      base:
+        CODE_SIGN_IDENTITY: "-"
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: PokerTable
+schemes:
+  PokerTable:
+    build:
+      targets:
+        PokerTable: all
+    test:
+      targets: [PokerTableTests]
+  PokerTableUITests:
+    build:
+      targets:
+        PokerTable: all
+        PokerTableUITests: all
+    test:
+      targets: [PokerTableUITests]

@@ -1,0 +1,19 @@
+# PokerKit reference clone (read-only, see THIRD_PARTY_NOTICES.md)
+reference/
+
+# SwiftPM
+.build/
+.swiftpm/
+Package.resolved
+
+# Xcode's per-user state
+xcuserdata/
+
+# Large oracle fixture sets generated on demand
+.oracle/
+
+# Python
+__pycache__/
+*.pyc
+
+.DS_Store

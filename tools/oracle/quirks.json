@@ -1,0 +1,1380 @@
+{
+  "pokerkit": "0.7.7",
+  "probes": [
+    {
+      "id": "betting_oq1",
+      "source": "betting OQ1",
+      "question": "What is the minimum raise-to facing a 1/2/4 UTG straddle with min bet 2?",
+      "prediction": {
+        "text": "Minimum raise after a straddle (expected: actor 3, minimum 6, not 8)",
+        "expected": {
+          "values": {
+            "actor_index": 3,
+            "min_raise_to": 6
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "actor_index": 3,
+          "min_raise_to": 6
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq2",
+      "source": "betting OQ2",
+      "question": "Does a short SB all-in over two limpers reopen raising for the BB and the limpers?",
+      "prediction": {
+        "text": "Limpers reopened by the SB's short all-in (expected: `1 True 5`, then `2 True`)",
+        "expected": {
+          "values": {
+            "actor_index": 1,
+            "can_raise": true,
+            "min_raise_to": 5,
+            "actor_index_after_call": 2,
+            "can_raise_after_call": true
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "actor_index": 1,
+          "can_raise": true,
+          "min_raise_to": 5,
+          "actor_index_after_call": 2,
+          "can_raise_after_call": true
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq3",
+      "source": "betting OQ3",
+      "question": "After all-ins for 3 and then 4 and two folds, may the caller of the 3 re-raise?",
+      "prediction": {
+        "text": "A short raise over a short raise counts as full (expected: `3 1 True`)",
+        "expected": {
+          "values": {
+            "actor_index": 3,
+            "to_call": 1,
+            "can_raise": true
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "actor_index": 3,
+          "to_call": 1,
+          "can_raise": false,
+          "raise_refusal": "There is no reason to complete, bet, or raise since every other player has either folded or gone all-in."
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": false
+    },
+    {
+      "id": "betting_oq4",
+      "source": "betting OQ4",
+      "question": "Once short all-ins add up to a full raise, may a player who already acted re-raise after one more short all-in?",
+      "prediction": {
+        "text": "A full cumulative raise followed by another short all-in (expected: `1 800 False`)",
+        "expected": {
+          "values": {
+            "actor_index": 1,
+            "to_call": 800,
+            "can_raise": false
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "actor_index": 1,
+          "to_call": 800,
+          "can_raise": false
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq5",
+      "source": "betting OQ5",
+      "question": "With a 1-chip big blind, what do callers owe and what is the minimum raise-to?",
+      "prediction": {
+        "text": "Short big blind (expected: `[1, 1, 0] 2 1 3`)",
+        "expected": {
+          "values": {
+            "bets": [
+              1,
+              1,
+              0
+            ],
+            "actor_index": 2,
+            "to_call": 1,
+            "min_raise_to": 3
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "bets": [
+            1,
+            1,
+            0
+          ],
+          "actor_index": 2,
+          "to_call": 1,
+          "min_raise_to": 3
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq6",
+      "source": "betting OQ6",
+      "question": "When a 3-chip big blind owes a 2-chip BB ante, is the ante or the blind taken first?",
+      "prediction": {
+        "text": "BB ante versus blind when the BB is short (expected: `AntePosting(1, 2)`, `BetCollection((0, 2, 0))`, `BlindOrStraddlePosting(0, 1)`, `BlindOrStraddlePosting(1, 1)`)",
+        "expected": {
+          "values": {
+            "operations": [
+              "AntePosting(player_index=1, amount=2)",
+              "BetCollection(bets=(0, 2, 0))",
+              "BlindOrStraddlePosting(player_index=0, amount=1)",
+              "BlindOrStraddlePosting(player_index=1, amount=1)"
+            ]
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "operations": [
+            "AntePosting(player_index=1, amount=2)",
+            "BetCollection(bets=(0, 2, 0))",
+            "BlindOrStraddlePosting(player_index=0, amount=1)",
+            "BlindOrStraddlePosting(player_index=1, amount=1)"
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq7",
+      "source": "betting OQ7",
+      "question": "Heads-up, who pays a button ante, and who acts first preflop with equal blinds?",
+      "prediction": {
+        "text": "Heads-up button ante and equal blinds (expected: `(0, 5) 5 0`, then `0`)",
+        "expected": {
+          "values": {
+            "antes": [
+              0,
+              5
+            ],
+            "effective_ante_0": 5,
+            "effective_ante_1": 0,
+            "actor_index_equal_blinds": 0
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "antes": [
+            0,
+            5
+          ],
+          "effective_ante_0": 5,
+          "effective_ante_1": 0,
+          "actor_index_equal_blinds": 0
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq8",
+      "source": "betting OQ8",
+      "question": "Can the board be dealt before the all-in showdown ends, and what happens when the all-in player mucks and the caller has chips behind?",
+      "prediction": {
+        "text": "Mucking at the all-in showdown, then dealing (expected: AssertionError at `get_effective_stack` 2502). The same setup with `can_burn_card()` checked before any show/muck should give False, which confirms the \"showdown before dealing\" gate.",
+        "expected": {
+          "values": {
+            "can_burn_card_before_show_or_muck": false
+          },
+          "exception": {
+            "type": "AssertionError",
+            "function": "get_effective_stack",
+            "statement": "assert len(effective_stacks) > 1"
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "can_burn_card_before_show_or_muck": false
+        },
+        "exception": {
+          "type": "AssertionError",
+          "message": "",
+          "function": "get_effective_stack",
+          "location": "state.py:2502",
+          "statement": "assert len(effective_stacks) > 1",
+          "call_chain": [
+            "deal_board",
+            "_update_dealing",
+            "_end_dealing",
+            "_begin_betting",
+            "get_effective_stack"
+          ]
+        },
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq9",
+      "source": "betting OQ9",
+      "question": "Does select_runout_count(runout_count, player_index) credit the named player and validate the count?",
+      "prediction": {
+        "text": "`select_runout_count` argument bug. Run this right after the all-in in OQ8, before any runout selection is made. Expected: the first call records `RunoutCountSelection(player_index=0, runout_count=2)`, not player 1; the second call raises `ValueError('The runout count 0 is not positive.')`.",
+        "expected": {
+          "values": {
+            "last_operation": "RunoutCountSelection(player_index=0, runout_count=2)"
+          },
+          "exception": {
+            "type": "ValueError",
+            "message": "The runout count 0 is not positive."
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "last_operation": "RunoutCountSelection(player_index=0, runout_count=2)"
+        },
+        "exception": {
+          "type": "ValueError",
+          "message": "The runout count 0 is not positive.",
+          "function": "verify_runout_count_selection",
+          "location": "state.py:5230",
+          "statement": "raise ValueError(",
+          "call_chain": [
+            "select_runout_count",
+            "verify_runout_count_selection"
+          ]
+        },
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq10",
+      "source": "betting OQ10",
+      "question": "After a heads-up preflop all-in without show automation, is dealing blocked until runout selection and shows are done?",
+      "prediction": {
+        "text": "A preflop all-in without show automation blocks dealing (expected: `False [True, True] [1, 0]`)",
+        "expected": {
+          "values": {
+            "can_burn_card": false,
+            "runout_count_selector_statuses": [
+              true,
+              true
+            ],
+            "showdown_indices": [
+              1,
+              0
+            ]
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "can_burn_card": false,
+          "runout_count_selector_statuses": [
+            true,
+            true
+          ],
+          "showdown_indices": [
+            1,
+            0
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq11",
+      "source": "betting OQ11",
+      "question": "If both side-pot players fold for free after a short all-in, what happens to the side pot nobody is eligible for?",
+      "prediction": {
+        "text": "Both side-pot players fold for free, leaving one all-in player. Expected: AssertionError `len(pot.player_indices) == 1` in `push_chips` (6167) for the 80-chip side pot that no one is eligible for. With `-O`, an IndexError instead.",
+        "expected": {
+          "exception": {
+            "type": "AssertionError",
+            "function": "push_chips",
+            "statement": "assert len(pot.player_indices) == 1"
+          }
+        }
+      },
+      "observed": {
+        "values": {},
+        "exception": {
+          "type": "AssertionError",
+          "message": "",
+          "function": "push_chips",
+          "location": "state.py:6162",
+          "statement": "assert len(pot.player_indices) == 1",
+          "call_chain": [
+            "fold",
+            "_update_betting",
+            "_end_betting",
+            "_begin_bet_collection",
+            "_update_bet_collection",
+            "_end_bet_collection",
+            "_begin_chips_pushing",
+            "_update_chips_pushing",
+            "push_chips",
+            "_update_chips_pushing",
+            "push_chips"
+          ]
+        },
+        "warnings": [
+          "There is no reason for this player to fold.",
+          "There is no reason for this player to fold."
+        ]
+      },
+      "matches": true
+    },
+    {
+      "id": "betting_oq12",
+      "source": "betting OQ12",
+      "question": "In cash-game mode, may a player fold when checking is free, and does it warn?",
+      "prediction": {
+        "text": "`can_fold` in cash-game mode with a free check (expected: `True ['There is no reason for this player to fold.']`)",
+        "expected": {
+          "values": {
+            "can_fold": true,
+            "warnings_during_can_fold": [
+              "There is no reason for this player to fold."
+            ]
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "can_fold": true,
+          "warnings_during_can_fold": [
+            "There is no reason for this player to fold."
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq1",
+      "source": "cards OQ1",
+      "question": "Is can_select_runout_count(2, 0) refused, and whom does select_runout_count(2, 2) credit?",
+      "prediction": {
+        "text": "The runout-selection argument bug: `[0,1,2] False`, then `player_index=0 ?`",
+        "expected": {
+          "values": {
+            "runout_count_selector_indices": [
+              0,
+              1,
+              2
+            ],
+            "can_select_runout_count_2_0": false,
+            "selection_player_index": 0
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "runout_count_selector_indices": [
+            0,
+            1,
+            2
+          ],
+          "can_select_runout_count_2_0": false,
+          "selection": "RunoutCountSelection(player_index=0, runout_count=2)",
+          "selection_player_index": 0
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq2",
+      "source": "cards OQ2",
+      "question": "What state does a runout count of 0 leave behind?",
+      "prediction": {
+        "text": "`runout_count = 0` loops forever. On a fresh copy of the state above: `0 1 -1 0 ?` (runout_count, street_return_index, street_return_count, board_count)",
+        "expected": {
+          "values": {
+            "runout_count": 0,
+            "street_return_index": 1,
+            "street_return_count": -1,
+            "board_count": 0
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "runout_count": 0,
+          "street_return_index": null,
+          "street_return_count": 0,
+          "board_count": 1,
+          "showdown_indices": [
+            2,
+            0,
+            1
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": false
+    },
+    {
+      "id": "cards_oq3",
+      "source": "cards OQ3",
+      "question": "Where does the KeyError from an unknown board card surface?",
+      "prediction": {
+        "text": "Where the `KeyError` from an unknown board card surfaces: `get_hand` gives `None ?` after the `??` flop, and the final shows raise `KeyError ?`",
+        "expected": {
+          "values": {
+            "get_hand": null
+          },
+          "exception": {
+            "type": "KeyError"
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "get_hand": null,
+          "first_show": "HoleCardsShowingOrMucking(player_index=0, hole_cards=(As, Ah))"
+        },
+        "exception": {
+          "type": "KeyError",
+          "message": "<Rank.UNKNOWN: '?'>",
+          "function": "__hash",
+          "location": "lookups.py:129",
+          "statement": "return prod(map(cls.__multipliers.__getitem__, ranks))",
+          "call_chain": [
+            "show_or_muck_hole_cards",
+            "_update_showdown",
+            "_end_showdown",
+            "_begin_hand_killing",
+            "can_win_now",
+            "get_up_hands",
+            "get_up_hand",
+            "from_game",
+            "__init__",
+            "has_entry",
+            "_get_key",
+            "__hash"
+          ]
+        },
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq4",
+      "source": "cards OQ4",
+      "question": "Is a duplicate card inside one deal_hole call ('AsAs') detected?",
+      "prediction": {
+        "text": "No duplicate check inside one call: `True [As, As] False ?`",
+        "expected": {
+          "values": {
+            "can_deal_hole_AsAs": true,
+            "hole_cards_0": [
+              "As",
+              "As"
+            ],
+            "can_deal_hole_As": false
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "can_deal_hole_AsAs": true,
+          "hole_cards_0": [
+            "As",
+            "As"
+          ],
+          "can_deal_hole_As": false
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq5",
+      "source": "cards OQ5",
+      "question": "If the all-in player concedes and the winner has chips behind, does dealing the flop crash?",
+      "prediction": {
+        "text": "A concession at the all-in, with the winner holding chips behind: `AssertionError in get_effective_stack ?`",
+        "expected": {
+          "exception": {
+            "type": "AssertionError",
+            "function": "get_effective_stack"
+          }
+        }
+      },
+      "observed": {
+        "values": {},
+        "exception": {
+          "type": "AssertionError",
+          "message": "",
+          "function": "get_effective_stack",
+          "location": "state.py:2502",
+          "statement": "assert len(effective_stacks) > 1",
+          "call_chain": [
+            "deal_board",
+            "_update_dealing",
+            "_end_dealing",
+            "_begin_betting",
+            "get_effective_stack"
+          ]
+        },
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq6",
+      "source": "cards OQ6",
+      "question": "In a cash game, is a player who kept cards face down asked to show or muck again after a runout street?",
+      "prediction": {
+        "text": "A face-down player is asked again after a runout street: `0 False ?` (showdown_index, card_burning_status)",
+        "expected": {
+          "values": {
+            "showdown_index": 0,
+            "card_burning_status": false
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "showdown_index": 0,
+          "card_burning_status": false
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq7",
+      "source": "cards OQ7",
+      "question": "Does a partial show on the river turn the unshown card into ?? and return it to the deck?",
+      "prediction": {
+        "text": "A partial show on the river returns the unshown card to the deck: `(As, ??) [As, ??] True ?`",
+        "expected": {
+          "values": {
+            "shown_hole_cards": [
+              "As",
+              "??"
+            ],
+            "hole_cards_0": [
+              "As",
+              "??"
+            ],
+            "Ks_in_deck_cards": true
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "shown_hole_cards": [
+            "As",
+            "??"
+          ],
+          "hole_cards_0": [
+            "As",
+            "??"
+          ],
+          "Ks_in_deck_cards": true
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq8",
+      "source": "cards OQ8",
+      "question": "Does dealing a ?? board card erase a burned ?? from burn_cards?",
+      "prediction": {
+        "text": "A burned `'??'` is erased by a `'??'` board card: `[] ?`",
+        "expected": {
+          "values": {
+            "burn_cards": []
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "burn_cards": []
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq9",
+      "source": "cards OQ9",
+      "question": "Does rake() round a 10% rake half to even?",
+      "prediction": {
+        "text": "Rake rounding (round half to even on a double): `(0,5) (2,13) (2,23) ?`",
+        "expected": {
+          "values": {
+            "rake_5": [
+              0,
+              5
+            ],
+            "rake_15": [
+              2,
+              13
+            ],
+            "rake_25": [
+              2,
+              23
+            ]
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "rake_5": [
+            0,
+            5
+          ],
+          "rake_15": [
+            2,
+            13
+          ],
+          "rake_25": [
+            2,
+            23
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq10",
+      "source": "cards OQ10",
+      "question": "How many distinct entry indices does StandardLookup hold?",
+      "prediction": {
+        "text": "Size of the evaluator table: `7462 ?`",
+        "expected": {
+          "values": {
+            "distinct_indices": 7462
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "distinct_indices": 7462
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq11",
+      "source": "cards OQ11",
+      "question": "At a tournament all-in, may a player muck, and may they show only one card?",
+      "prediction": {
+        "text": "A tournament all-in allows mucking but refuses partial shows: `True False ?`",
+        "expected": {
+          "values": {
+            "can_muck": true,
+            "can_show_As": false
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "can_muck": true,
+          "can_show_As": false
+        },
+        "exception": null,
+        "warnings": [
+          "A card being dealt As is not recommended to be dealt. For more details, please consult the method 'pokerkit.state.State.get_dealable_cards()'."
+        ]
+      },
+      "matches": true
+    },
+    {
+      "id": "cards_oq12",
+      "source": "cards OQ12",
+      "question": "Does deal_hole accept a negative player index?",
+      "prediction": {
+        "text": "A negative dealee index is accepted: `2 ?`",
+        "expected": {
+          "values": {
+            "player_index": 2
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "player_index": -1,
+          "hole_cards": [
+            [],
+            [],
+            [
+              "As"
+            ]
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": false
+    },
+    {
+      "id": "cards_oq13",
+      "source": "cards OQ13",
+      "question": "Does a post-hand partial show in tournament mode raise a bare AssertionError?",
+      "prediction": {
+        "text": "A post-hand partial show in tournament mode raises a bare `AssertionError`: `AssertionError propagates ?`",
+        "expected": {
+          "exception": {
+            "type": "AssertionError"
+          }
+        }
+      },
+      "observed": {
+        "values": {},
+        "exception": {
+          "type": "AssertionError",
+          "message": "",
+          "function": "verify_hole_cards_showing_or_mucking",
+          "location": "state.py:5538",
+          "statement": "raise AssertionError",
+          "call_chain": [
+            "can_show_or_muck_hole_cards",
+            "verify_hole_cards_showing_or_mucking"
+          ]
+        },
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq1",
+      "source": "pots OQ1",
+      "question": "With a three-way tie after a 1-chip rake, where do the odd chips go?",
+      "prediction": {
+        "text": "Odd chips with a three-way tie. Predicted amounts `(5, 3, 3)`: remainder 2 all to index 0",
+        "expected": {
+          "values": {
+            "amounts": [
+              5,
+              3,
+              3
+            ]
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "push": "ChipsPushing(amounts=(5, 3, 3), pot_index=0, board_index=0, hand_type_index=0)",
+          "amounts": [
+            5,
+            3,
+            3
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq2",
+      "source": "pots OQ2",
+      "question": "Can a run-it-twice hand round-trip through PHH?",
+      "prediction": {
+        "text": "Run-it-twice cannot round-trip through PHH. Predicted: four `d db` lines after the two `sm` lines, then a `ValueError` on replay (expect ValueError('Unable to repair the hand history'))",
+        "expected": {
+          "values": {
+            "last_six_action_kinds": [
+              "sm",
+              "sm",
+              "db",
+              "db",
+              "db",
+              "db"
+            ]
+          },
+          "exception": {
+            "type": "ValueError",
+            "message": "Unable to repair the hand history"
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "actions": [
+            "d dh p1 AcAd",
+            "d dh p2 KcKd",
+            "p2 cc",
+            "p1 cc",
+            "d db 2c3d4h",
+            "p1 cbr 98",
+            "p2 cc",
+            "p1 sm AcAd",
+            "p2 sm KcKd",
+            "d db 5s",
+            "d db 9h",
+            "d db 6s",
+            "d db Th"
+          ],
+          "last_six_action_kinds": [
+            "sm",
+            "sm",
+            "db",
+            "db",
+            "db",
+            "db"
+          ]
+        },
+        "exception": {
+          "type": "ValueError",
+          "message": "Unable to repair the hand history",
+          "function": "state_actions",
+          "location": "notation.py:905",
+          "statement": "raise ValueError('Unable to repair the hand history')",
+          "call_chain": [
+            "__iter__",
+            "state_actions"
+          ]
+        },
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq3",
+      "source": "pots OQ3",
+      "question": "Is can_select_runout_count(2, 0) refused although player 0 may select, and whom does select_runout_count(3, 1) credit?",
+      "prediction": {
+        "text": "`player_index` is ignored and 0 is mis-validated. Use the state from question 2, stopped just after the flop call: expect False although player 0 may select; expect 0, not 1",
+        "expected": {
+          "values": {
+            "can_select_runout_count_2_0": false,
+            "selection_player_index": 0
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "can_select_runout_count_2_0": false,
+          "selection_player_index": 0
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq4",
+      "source": "pots OQ4",
+      "question": "Is a runout count of 0 accepted, and what does it leave behind?",
+      "prediction": {
+        "text": "A count of 0 is accepted. Use a fresh state from question 2, stopped at the flop all-in: expect `0 -1 0` (runout_count, street_return_count, board_count)",
+        "expected": {
+          "values": {
+            "runout_count": 0,
+            "street_return_count": -1,
+            "board_count": 0
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "runout_count": 0,
+          "street_return_count": -1,
+          "board_count": 0
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq5",
+      "source": "pots OQ5",
+      "question": "In tournament mode, may the all-in player muck at the all-in showdown?",
+      "prediction": {
+        "text": "Tournament all-in muck is accepted. Predicted: tournament mode, `True`, `1`, `True` (expect TOURNAMENT True 1 True)",
+        "expected": {
+          "values": {
+            "mode": "TOURNAMENT",
+            "all_in_status": true,
+            "showdown_index": 1,
+            "can_muck": true
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "mode": "TOURNAMENT",
+          "all_in_status": true,
+          "showdown_index": 1,
+          "can_muck": true
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq6",
+      "source": "pots OQ6",
+      "question": "Does a tournament partial show after a fold-out raise AssertionError?",
+      "prediction": {
+        "text": "Tournament partial show after a fold-out raises `AssertionError`: expect AssertionError (cash game: False, 'Non-standard showdown must show all cards.')",
+        "expected": {
+          "exception": {
+            "type": "AssertionError"
+          }
+        }
+      },
+      "observed": {
+        "values": {},
+        "exception": {
+          "type": "AssertionError",
+          "message": "",
+          "function": "verify_hole_cards_showing_or_mucking",
+          "location": "state.py:5538",
+          "statement": "raise AssertionError",
+          "call_chain": [
+            "can_show_or_muck_hole_cards",
+            "verify_hole_cards_showing_or_mucking"
+          ]
+        },
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq7",
+      "source": "pots OQ7",
+      "question": "If every side-pot contender mucks at a tournament showdown, what happens to the side pot?",
+      "prediction": {
+        "text": "All side-pot contenders muck: crash at L6162 (expect AssertionError)",
+        "expected": {
+          "exception": {
+            "type": "AssertionError",
+            "function": "push_chips",
+            "statement": "assert len(pot.player_indices) == 1"
+          }
+        }
+      },
+      "observed": {
+        "values": {},
+        "exception": {
+          "type": "AssertionError",
+          "message": "",
+          "function": "push_chips",
+          "location": "state.py:6162",
+          "statement": "assert len(pot.player_indices) == 1",
+          "call_chain": [
+            "show_or_muck_hole_cards",
+            "_update_showdown",
+            "_end_showdown",
+            "_begin_hand_killing",
+            "_update_hand_killing",
+            "_end_hand_killing",
+            "_begin_chips_pushing",
+            "_update_chips_pushing",
+            "push_chips",
+            "_update_chips_pushing",
+            "push_chips"
+          ]
+        },
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq8",
+      "source": "pots OQ8",
+      "question": "In a cash game, do two free folds that strand a side pot warn and then crash?",
+      "prediction": {
+        "text": "Cash game, two non-standard folds strand a side pot. Same setup as question 7 with `mode=Mode.CASH_GAME`, through the pre-flop calls. Predicted: two `UserWarning`s, then `AssertionError` at L6162.",
+        "expected": {
+          "warnings": [
+            "There is no reason for this player to fold.",
+            "There is no reason for this player to fold."
+          ],
+          "exception": {
+            "type": "AssertionError",
+            "function": "push_chips",
+            "statement": "assert len(pot.player_indices) == 1"
+          }
+        }
+      },
+      "observed": {
+        "values": {},
+        "exception": {
+          "type": "AssertionError",
+          "message": "",
+          "function": "push_chips",
+          "location": "state.py:6162",
+          "statement": "assert len(pot.player_indices) == 1",
+          "call_chain": [
+            "fold",
+            "_update_betting",
+            "_end_betting",
+            "_begin_bet_collection",
+            "_update_bet_collection",
+            "_end_bet_collection",
+            "_begin_chips_pushing",
+            "_update_chips_pushing",
+            "push_chips",
+            "_update_chips_pushing",
+            "push_chips"
+          ]
+        },
+        "warnings": [
+          "There is no reason for this player to fold.",
+          "There is no reason for this player to fold."
+        ]
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq9",
+      "source": "pots OQ9",
+      "question": "Does from_game_state carry the game's ante_trimming_status into the hand history?",
+      "prediction": {
+        "text": "`from_game_state` drops `ante_trimming_status`. Predicted `False`.",
+        "expected": {
+          "values": {
+            "ante_trimming_status": false
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "ante_trimming_status": false
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq10",
+      "source": "pots OQ10",
+      "question": "After the first shower mucks at a heads-up cash-game preflop all-in, is the burn next and is the hand still running?",
+      "prediction": {
+        "text": "A muck in a pre-river all-in still requires the next street. Using the setup from question 5 in cash-game mode, run `s.show_or_muck_hole_cards(False)` for the first player to show. Then expect `s.can_burn_card()` to be `True` and `s.status` to stay `True` until the flop is dealt.",
+        "expected": {
+          "values": {
+            "can_burn_card": true,
+            "status": true
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "can_burn_card": false,
+          "status": true,
+          "showdown_index": 0,
+          "runout_count_selector_indices": [
+            0,
+            1
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": false
+    },
+    {
+      "id": "pots_oq11",
+      "source": "pots OQ11",
+      "question": "When a loaded hand history has no sm lines, is the pot chopped?",
+      "prediction": {
+        "text": "PHH without `sm` lines chops: expect [100, 100], not [102, 98]",
+        "expected": {
+          "values": {
+            "final_stacks": [
+              100,
+              100
+            ]
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "final_stacks": [
+            100,
+            100
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq12",
+      "source": "pots OQ12",
+      "question": "Does the automatic show/muck decision stall when the shower holds unknown cards?",
+      "prediction": {
+        "text": "`None` with unknown hole cards stalls automation: expect `0 False`",
+        "expected": {
+          "values": {
+            "showdown_index": 0,
+            "can_show_or_muck": false
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "showdown_index": 0,
+          "can_show_or_muck": false
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "pots_oq13",
+      "source": "pots OQ13",
+      "question": "When hand killing leaves one player, does the push take the single-player path?",
+      "prediction": {
+        "text": "A killed loser turns the push into the single-player path. Predicted: one push with `board_index=None` and `hand_type_index=None`.",
+        "expected": {
+          "values": {
+            "push_count": 1,
+            "board_indices": [
+              null
+            ],
+            "hand_type_indices": [
+              null
+            ]
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "pushes": [
+            "ChipsPushing(amounts=(200, 0), pot_index=0, board_index=None, hand_type_index=None)"
+          ],
+          "push_count": 1,
+          "board_indices": [
+            null
+          ],
+          "hand_type_indices": [
+            null
+          ]
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "extra_a_corrected_betting_oq3",
+      "source": "extra (a)",
+      "question": "With bookkeeping automations and explicit dealing, may the caller re-raise after all-ins to 11 and 12 when another player can still respond?",
+      "prediction": {
+        "text": "Corrected betting OQ3 (cash, blinds 5/10, min bet 10, stacks 200, 200, 11, 200, 12; p2 raises to 11, p3 calls, p4 raises to 12, p0 calls, p1 folds): actor 3 has toCall 1, can raise, and min raise-to 22",
+        "expected": {
+          "values": {
+            "actors": [
+              2,
+              3,
+              4,
+              0,
+              1
+            ],
+            "actor_index": 3,
+            "to_call": 1,
+            "can_raise": true,
+            "min_raise_to": 22
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "actors": [
+            2,
+            3,
+            4,
+            0,
+            1
+          ],
+          "actor_index": 3,
+          "to_call": 1,
+          "can_raise": true,
+          "min_raise_to": 22
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "extra_b_hand_labels",
+      "source": "extra (b)",
+      "question": "What Label text does each hand category have, and are StandardLookup entry indices dense from 0 (weakest) to 7461 (strongest)?",
+      "prediction": {
+        "text": "Labels as written in lookups.py ('High card' to 'Straight flush'); indices dense and 0-based, 7-5-4-3-2 offsuit = 0, royal flush = 7461",
+        "expected": {
+          "values": {
+            "labels": {
+              "HIGH_CARD": "High card",
+              "ONE_PAIR": "One pair",
+              "TWO_PAIR": "Two pair",
+              "THREE_OF_A_KIND": "Three of a kind",
+              "STRAIGHT": "Straight",
+              "FLUSH": "Flush",
+              "FULL_HOUSE": "Full house",
+              "FOUR_OF_A_KIND": "Four of a kind",
+              "STRAIGHT_FLUSH": "Straight flush"
+            },
+            "indices_dense_from_0": true,
+            "weakest_index": 0,
+            "strongest_index": 7461
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "labels": {
+            "HIGH_CARD": "High card",
+            "ONE_PAIR": "One pair",
+            "TWO_PAIR": "Two pair",
+            "THREE_OF_A_KIND": "Three of a kind",
+            "STRAIGHT": "Straight",
+            "FLUSH": "Flush",
+            "FULL_HOUSE": "Full house",
+            "FOUR_OF_A_KIND": "Four of a kind",
+            "STRAIGHT_FLUSH": "Straight flush"
+          },
+          "index_ranges": {
+            "HIGH_CARD": [
+              0,
+              1276
+            ],
+            "ONE_PAIR": [
+              1277,
+              4136
+            ],
+            "TWO_PAIR": [
+              4137,
+              4994
+            ],
+            "THREE_OF_A_KIND": [
+              4995,
+              5852
+            ],
+            "STRAIGHT": [
+              5853,
+              5862
+            ],
+            "FLUSH": [
+              5863,
+              7139
+            ],
+            "FULL_HOUSE": [
+              7140,
+              7295
+            ],
+            "FOUR_OF_A_KIND": [
+              7296,
+              7451
+            ],
+            "STRAIGHT_FLUSH": [
+              7452,
+              7461
+            ]
+          },
+          "indices_dense_from_0": true,
+          "weakest_index": 0,
+          "strongest_index": 7461
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "extra_c_lookup_digest",
+      "source": "extra (c)",
+      "question": "Does the recomputed StandardLookup order digest equal the md5 that test_lookups.py asserts?",
+      "prediction": {
+        "text": "md5 488cdd27873395ba75205cd02fb9d6b2, as StandardLookupTestCase.test_get_entry asserts",
+        "expected": {
+          "values": {
+            "digest": "488cdd27873395ba75205cd02fb9d6b2"
+          }
+        }
+      },
+      "observed": {
+        "values": {
+          "digest": "488cdd27873395ba75205cd02fb9d6b2",
+          "serialization_rule": "Number the 52 cards of Deck.STANDARD by deck position 4 * rank + suit, with rank 0 (deuce) to 12 (ace) and suit 0 to 3 for c, d, h, s, so the deck runs 2c 2d 2h 2s 3c ... Ah As. Take all C(52,5) = 2,598,960 five-card combinations in lexicographic order of positions (itertools.combinations order: 0 1 2 3 4, then 0 1 2 3 5, ...). Stable-sort them by StandardLookup entry index ascending, weakest first, so hands of equal strength keep that enumeration order. Write each hand as its five cards in ascending position, each card as its rank character (2-9, T, J, Q, K, A) followed by its suit character (c, d, h, s), with no separators, so a royal flush in spades is TsJsQsKsAs. Join the hands with a single LF (0x0A) and no trailing newline, encode as UTF-8 (all ASCII) and take the MD5 as lowercase hex.",
+          "line_count": 2598960,
+          "byte_count": 28588559,
+          "first_line": "2c3c4c5c7d",
+          "last_line": "TsJsQsKsAs"
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": true
+    },
+    {
+      "id": "extra_d_phh_text",
+      "source": "extra (d)",
+      "question": "What exact text does from_game_state(...).dumps() give for a short completed heads-up hand, as the reference for the Swift PHH exporter?",
+      "prediction": {
+        "text": "Plan section 2: d dh, d db, cbr, cc, f and sm lines only (burns, posts, collections, kills, pushes and pulls dropped), keys in dataclass field order; the recorded text is the reference, not checked",
+        "expected": null
+      },
+      "observed": {
+        "values": {
+          "complete": true,
+          "phh": "variant = 'NT'\nante_trimming_status = true\nantes = [1, 1]\nblinds_or_straddles = [1, 2]\nmin_bet = 2\nstarting_stacks = [200, 200]\nactions = ['d dh p1 AcAd', 'd dh p2 KcKd', 'p2 cbr 6', 'p1 cc', 'd db Jc8d2s', 'p1 cc', 'p2 cbr 8', 'p1 cc', 'd db 7h', 'p1 cc', 'p2 cc', 'd db 3c', 'p1 cbr 20', 'p2 cc', 'p1 sm AcAd', 'p2 sm']\nfinishing_stacks = [235, 165]\nwinnings = [70, 0]"
+        },
+        "exception": null,
+        "warnings": []
+      },
+      "matches": null
+    }
+  ]
+}
