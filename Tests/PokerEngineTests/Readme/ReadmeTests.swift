@@ -1687,6 +1687,21 @@ struct ReadmeTests {
         #expect(try HandState(json: Data(read.document.utf8)) == hand)
 
         // README: begin
+        // Player 1 shows and wins, and player 2 mucks. The table saw player 1's cards and the board, nothing else.
+        let finished = try hand.apply(.showHoleCards(player: 1)).apply(.muckHoleCards(player: 2))
+        let shared = try finished.redactingHiddenCards()
+        #expect(shared.results?[1].holeCards.map(\.card) == [.known(.queen, .diamonds), .known(.jack, .diamonds)])
+        #expect(shared.results?[2].holeCards.map(\.card) == [.unknown, .unknown])
+        #expect(shared.stacks == finished.stacks)
+
+        // Player 2's own copy keeps their cards.
+        let own = try finished.redactingHiddenCards(keeping: [2])
+        #expect(own.results?[2].holeCards.map(\.card) == [.known(.ace, .spades), .known(.king, .clubs)])
+        // README: end
+        #expect(shared.results?[0].holeCards.map(\.card) == [.unknown, .unknown])
+        #expect(own.results?[1].holeCards == finished.results?[1].holeCards)
+
+        // README: begin
         let history = try hand.phh()
         #expect(history.hasPrefix("variant = 'NT'\n"))
         // README: end

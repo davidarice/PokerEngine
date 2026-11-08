@@ -85,7 +85,7 @@ targets: [
 | `HandOperation` | One thing the dealer enters. |
 | `PendingOperation`, `ForcedBet` | What the hand is waiting for. |
 | `LegalActions`, `BetOrRaise` | What the player to act may do. |
-| `EngineError`, `ReplayError` | Why an operation or a replay was refused. `DealKind`, `CardLocation` and `RaiseUnavailableReason` are their details. |
+| `EngineError`, `ReplayError`, `RedactionError` | Why an operation, a replay or a redaction was refused. `DealKind`, `CardLocation` and `RaiseUnavailableReason` are their details. |
 | `LogEntry`, `HandEvent` | One row of the hand's history. |
 | `PlayerResult` | One player's outcome. |
 | `Card`, `Rank`, `Suit` | `.known(.ace, .spades)`, or `.unknown` for a card nobody scanned. `Card("As")` and `Card.parse("AsKs")` read text, and the second throws `CardParseError`. |
@@ -1001,6 +1001,26 @@ entered, because a fold-out or a concession needs no such card. A page must hand
 `phh()` holds them too. To show players only what the table saw, use the cards in `results` with `isFaceUp` true, not
 `shown`, which needs every card. Do not give players the whole document: a page that fetches it receives every card,
 even if it hides some.
+
+To give players a document, redact the hand first. `redactingHiddenCards(keeping:)` turns every hole card that was
+never shown, and every burned card, into `.unknown`, then replays the operations, so the copy's `operations`, `log`,
+`results`, `json()` and `phh()` name none of those cards. Board cards and shown cards stay, and so do the cards of the
+players in `keeping`, for a player's own copy. Only face-up cards decide the pots, so the copy ends where the hand does,
+with the same chips, statuses and boards, waiting for the same operation. The engine checks that, and throws
+`RedactionError` rather than return a copy that differs.
+
+```swift
+// Player 1 shows and wins, and player 2 mucks. The table saw player 1's cards and the board, nothing else.
+let finished = try hand.apply(.showHoleCards(player: 1)).apply(.muckHoleCards(player: 2))
+let shared = try finished.redactingHiddenCards()
+#expect(shared.results?[1].holeCards.map(\.card) == [.known(.queen, .diamonds), .known(.jack, .diamonds)])
+#expect(shared.results?[2].holeCards.map(\.card) == [.unknown, .unknown])
+#expect(shared.stacks == finished.stacks)
+
+// Player 2's own copy keeps their cards.
+let own = try finished.redactingHiddenCards(keeping: [2])
+#expect(own.results?[2].holeCards.map(\.card) == [.known(.ace, .spades), .known(.king, .clubs)])
+```
 
 `HandState(json:)` throws `DecodingError`, and it reads only JSON as the engine writes it: printable ASCII with no
 escapes, whole numbers of at most 19 digits, each key once, at most 32 levels deep and 1 MiB long. So keep names and
