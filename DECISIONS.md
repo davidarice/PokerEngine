@@ -21,7 +21,8 @@ mucking and hand killing. Version 0.1.1 adds `dealtHand(of:)` (C17) and `TableSe
 (C18). Version 0.2.0 adds a chop and a void (B12), lets the player left at a tournament showdown keep the cards face
 down (B13), refuses an unknown card in a listed show (B14), and makes `TableSession.undo()` reverse a correction (C19).
 Version 0.2.1 adds Pot-Limit Omaha (C20). Version 0.2.2 adds `TableState`, the table between hands, and 0.2.3 lets the
-dealer change seats and move the button between hands (C21).
+dealer change seats and move the button between hands (C21). Version 0.2.5 adds `redactingHiddenCards(keeping:)`, a copy
+of the hand without the cards the table never saw (C22).
 
 ## A. PokerKit rules that differ from common house rules (followed as PokerKit has them)
 
@@ -564,6 +565,21 @@ dealer change seats and move the button between hands (C21).
       0.2.3 adds whether the dealer moved the button, and a 0.2.2 save, which lacks it, reads as not moved.
 
     *Evidence:* `TableStateTests`, and the README's table in `ReadmeTests`. [0.2.2, 0.2.3]
+
+22. **`redactingHiddenCards(keeping:)` (0.2.5)** gives a hand to someone who must not learn the cards the table never
+    saw, such as the other players at a home game, following it on their phones. It turns each hole card never shown,
+    except those of the players in `keeping`, and every burned card into `??` in the operations, then replays them.
+    Everything else follows from the operations, so the log, the live cards, `results`, the document and PHH cannot
+    hold a hidden card, as they could if the stored cards were edited in place. The copy ends where the hand does.
+    Pots go on face-up cards (A13). Every hand with a card face down is asked again at each showdown (A9, A18), and a
+    card kept face down at the last river is forgotten, so hand killing and pushes see only shown cards. Hiding a card
+    never gets an operation refused, either: a hidden card is never shown later, and a `??` hole card or burn is
+    accepted wherever a known one is. The redaction checks all this rather than assume it. It compares the stacks,
+    bets, statuses, boards, cards shown, street, actor, `pendingOperation` and each result's chips, status and `shown`,
+    and throws `RedactionError` instead of returning a copy that differs. A card shown at one street and left out of a
+    river re-ask stays in the copy, since the table saw it.
+    *Evidence:* `RedactionTests` redacts every oracle hand after every operation, and finds no hidden card in the
+    operations, the document, the log or the hand history, and no change to what the table saw. [0.2.5]
 
 ## D. Errors
 
