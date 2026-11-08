@@ -32,7 +32,7 @@ is a small dealer app built on the engine, with a shuffled deck standing in for 
 PokerEngine needs iOS 17 or macOS 14. It is built and tested with Swift 6.4, in Swift 6 language mode.
 
 In Xcode, choose **File > Add Package Dependencies**, paste `https://github.com/davidarice/PokerEngine`, and set the
-dependency rule to **Up to Next Minor Version** from `0.2.4`. Add `PokerEngine` to the app target, and
+dependency rule to **Up to Next Minor Version** from `0.2.5`. Add `PokerEngine` to the app target, and
 `PokerEngineObservation` too if the app uses `TableSession`.
 
 The rule stops at the next minor version because, while the version starts with 0, a minor release may change the API.
@@ -44,7 +44,7 @@ In a manifest:
 ```
 platforms: [.iOS(.v17), .macOS(.v14)],
 dependencies: [
-    .package(url: "https://github.com/davidarice/PokerEngine.git", .upToNextMinor(from: "0.2.4")),
+    .package(url: "https://github.com/davidarice/PokerEngine.git", .upToNextMinor(from: "0.2.5")),
 ],
 targets: [
     .target(name: "DealerApp", dependencies: [
