@@ -247,7 +247,7 @@ public struct HandState: Sendable, Equatable {
     /// only.
     var brokenInvariant: String? {
         let active = players.filter { statuses[$0] == .active }
-        let known = (active.flatMap { dealtHoleCards[$0].map(\.card) } + boardCards.joined() + burnCards + muckedCards)
+        let known = (active.flatMap { dealtHoleCards[$0].map(\.card) } + Array(boardCards.joined()) + burnCards + muckedCards)
             .filter { $0 != .unknown }
         let pendingPhases = [
             antePostingStatuses.contains(true),
